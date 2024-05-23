@@ -2,13 +2,14 @@ import { useState } from 'react'
 
 
 import './App.css'
+import Nav from './components/Nav'
 
 function App() {
 
 
   return (
     <>
-      <div className='text-blue-600'>HI</div>
+      <Nav />
     </>
   )
 }
