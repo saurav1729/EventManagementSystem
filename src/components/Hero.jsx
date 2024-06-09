@@ -35,7 +35,7 @@ const Hero = () => {
         <div className='z-[1] text-[white] pt-[54px] w-[550px]'>
           <h1 className='mt-[3.5rem] ml-[3rem] text-[3rem] font-[500] font-freeman'>Now book</h1>
           <h1 className='ml-[3rem] text-[3rem] font-[500] font-freeman'>your slot in <span className='text-yellow-ochre'>{typeEffect}</span></h1>
-          <div className='h-[5rem] rounded-[14px] w-[377px] bg-yellow-ochre mx-auto mt-[20px] flex justify-center items-center text-[2rem] text-[#ffffff] font-[400] font-freeman hover:bg-[#886800] hover:cursor-pointer'>book your slot</div>
+        <Link to="./form"> <div className='h-[5rem] rounded-[14px] w-[377px] bg-yellow-ochre mx-auto mt-[20px] flex justify-center items-center text-[2rem] text-[#ffffff] font-[400] font-freeman hover:bg-[#886800] hover:cursor-pointer'>book your slot</div></Link>
         </div>
       </div>
     </>
