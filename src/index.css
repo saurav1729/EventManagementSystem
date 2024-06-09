@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+#root{
+    background: url("./resources/korus-bg.jfif");
+    /* background: url("./resources/korusbg2.png"); */
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
