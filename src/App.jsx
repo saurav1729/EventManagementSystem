@@ -8,6 +8,7 @@ import { createBrowserRouter,Outlet,RouterProvider } from 'react-router-dom'
 import Societies from './components/Societies'
 import About from './components/About'
 import Form from './components/Form'
+import Signup from './authentication/Signup'
 
 
 
@@ -43,6 +44,10 @@ const appRouter=createBrowserRouter(
                   path:"/societies",
                   element:[<Societies/>]
               },
+              {
+                path:"/signup",
+                element:[<Signup/>]
+              }
           ],
           errorElement:<Error/>
       }

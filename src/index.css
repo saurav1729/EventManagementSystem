@@ -3,8 +3,7 @@
 @tailwind utilities;
 
 #root{
-    background: url("./resources/korus-bg.jfif");
-    /* background: url("./resources/korusbg2.png"); */
+    background: url("./resources/korusBG.svg");
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center center;
