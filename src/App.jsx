@@ -9,6 +9,7 @@ import Societies from './components/Societies'
 import About from './components/About'
 import Form from './components/Form'
 import Signup from './authentication/Signup'
+import Signin from './authentication/Signin'
 
 
 
@@ -42,11 +43,15 @@ const appRouter=createBrowserRouter(
               },
               {
                   path:"/societies",
-                  element:[<Societies/>]
+                  element:[<Nav/>,<Societies/>]
               },
               {
                 path:"/signup",
                 element:[<Signup/>]
+              },
+              {
+                path:"/signin",
+                element:[<Signin/>]
               }
           ],
           errorElement:<Error/>
