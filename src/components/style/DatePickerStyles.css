@@ -1,0 +1,30 @@
+
+  .react-date-picker__inputGroup__input {
+    background-color: #000;
+    color: yellow;
+    border: none;
+  }
+  
+  .react-date-picker__calendar-button {
+    background-color: #000;
+    color: white;
+  }
+  
+  .react-date-picker__calendar-button svg {
+    fill: white;
+  }
+  
+  /* DatePickerStyles.css */
+.react-date-picker__wrapper {
+   
+    border: none;
+    color: yellow;
+  
+  }
+
+
+  .inputEvent{
+    border-bottom: yellow;
+  }
+
+  

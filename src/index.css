@@ -8,3 +8,7 @@
     background-repeat: no-repeat;
     background-position: center center;
 }
+
+.react-date-picker__wrapper {
+    border: none;
+}
