@@ -3,9 +3,9 @@ import rightCharacter from "../assets/formPic2.svg";
 import leftCharacter from "../assets/LeftFormPic.svg";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import DatePicker from "react-date-picker";
-import 'react-date-picker/dist/DatePicker.css';
-import 'react-calendar/dist/Calendar.css';
-import './style/DatePickerStyles.css';  // Import the custom styles
+import "react-date-picker/dist/DatePicker.css";
+import "react-calendar/dist/Calendar.css";
+import "./style/DatePickerStyles.css";
 
 const Form = () => {
   const [selectedYear, setSelectedYear] = useState("");
@@ -13,21 +13,84 @@ const Form = () => {
   const [selectedTime, setSelectedTime] = useState("");
   const [purpose, setPurpose] = useState("specific");
   const [category, setCategory] = useState("group");
+  const [formData, setFormData] = useState({
+    name: "",
+    rollNumber: "",
+    contact: "",
+    branch: "",
+    year: "",
+    date: "",
+    purpose: "",
+    specificType: "",
+    category: "",
+    groupName: "",
+    time: "",
+  });
+  const [errors, setErrors] = useState({});
+
+  const DataInp = (name, value) => {
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const validate = () => {
+    let errors = {};
+    if (!formData.name) errors.name = "Name is required";
+    if (!formData.rollNumber) errors.rollNumber = "Roll Number is required";
+    if (!formData.contact) errors.contact = "Contact is required";
+    if (!formData.branch) errors.branch = "Branch is required";
+    if (!selectedYear) errors.year = "Year is required";
+    if (!selectedTime) errors.time = "Time is required";
+    if (purpose === "specific" && !formData.specificType) errors.specificType = "Specific purpose is required";
+    if (category === "group" && !formData.groupName) errors.groupName = "Group name is required";
+
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleYearChange = (event) => {
     setSelectedYear(event.target.value);
+    DataInp("year", event.target.value);
   };
 
   const handleTimeChange = (event) => {
     setSelectedTime(event.target.value);
+    DataInp("time", event.target.value);
   };
 
   const handlePurposeChange = (event) => {
     setPurpose(event.target.value);
+    DataInp("purpose", event.target.value);
   };
 
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
+    DataInp("category", event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (validate()) {
+      const dataToSubmit = { ...formData, date: startDate, year: selectedYear, time: selectedTime };
+      console.log(dataToSubmit);
+      try {
+        // const response = await fetch("YOUR_BACKEND_URL/api/form-submit", {
+        //   method: "POST",
+        //   headers: {
+        //     "Content-Type": "application/json",
+        //   },
+        //   body: JSON.stringify(dataToSubmit),
+        // });
+        // if (response.ok) {
+        //   // Handle successful submission
+        //   console.log("Form submitted successfully");
+        // } else {
+        //   // Handle submission error
+        //   console.error("Form submission error");
+        // }
+      } catch (error) {
+        console.error("Error submitting form:", error);
+      }
+    }
   };
 
   const options = [
@@ -50,24 +113,6 @@ const Form = () => {
     { value: "6PM", text: "6PM" },
   ];
 
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    const data = {
-      name: event.target.name.value,
-      rollNumber: event.target.rollNumber.value,
-      contact: event.target.contact.value,
-      branch: event.target.branch.value,
-      year: selectedYear,
-      date: startDate,
-      purpose: purpose,
-      category: category,
-      time: selectedTime
-    };
-    console.log(data);
-  }
-
-
-
   return (
     <div className="formPage bg-black w-screen h-screen justify-center flex-col flex items-center">
       <div className="w-[70%] h-[7rem] bg-[#CB9D06] mt-7 flex justify-center items-center text-[#fff] gap-8 font-freeman flex-col rounded-[12px] leading-[41px]">
@@ -89,148 +134,222 @@ const Form = () => {
           src={leftCharacter}
           alt="left character"
         />
-        <div className="p-[2rem] pl-10 flex justify-between">
-          <div className="flex text-[white] p-2 w-[45%] h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
-            <label className="ml-5" htmlFor="name">Name:</label>
-            <input
-              className="bg-[#000] w-[27rem] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
-              type="text"
-              id="name"
-              name="name"
-              placeholder="saurav jha"
-            />
+        <form onSubmit={handleSubmit}>
+          <div className="p-[2rem] pl-10 flex justify-between">
+            <div className="flex text-[white] p-2 w-[45%] h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
+              <label className="ml-5" htmlFor="name">
+                Name:
+              </label>
+              <input
+                className="bg-[#000] w-[27rem] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
+                type="text"
+                id="name"
+                name="name"
+                onChange={(e) => DataInp(e.target.name, e.target.value)}
+                placeholder="saurav jha"
+              />
+            </div>
+            {errors.name && <div className="text-red-500">{errors.name}</div>}
+            <div className="flex text-[white] p-2 w-[45%] h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
+              <label className="ml-5" htmlFor="rollNumber">
+                Roll Number:
+              </label>
+              <input
+                className="bg-[#000] w-[70%] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
+                type="text"
+                id="rollNumber"
+                name="rollNumber"
+                onChange={(e) => DataInp(e.target.name, e.target.value)}
+                placeholder="22053276"
+              />
+            </div>
+            {errors.rollNumber && <div className="text-red-500">{errors.rollNumber}</div>}
           </div>
-          <div className="flex text-[white] p-2 w-[45%] h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
-            <label className="ml-5" htmlFor="rollNumber">Roll Number:</label>
-            <input
-              className="bg-[#000] w-[70%] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
-              type="text"
-              id="rollNumber"
-              name="rollNumber"
-              placeholder="22053276"
-            />
+          <div className="p-[2rem] -mt-9 flex justify-between">
+            <div className="flex text-[white] p-2 w-[45%] h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
+              <label className="ml-5" htmlFor="contact">
+                Contact:
+              </label>
+              <input
+                className="bg-[#000] w-[25rem] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
+                type="text"
+                id="contact"
+                name="contact"
+                onChange={(e) => DataInp(e.target.name, e.target.value)}
+                placeholder="123455689"
+              />
+            </div>
+            {errors.contact && <div className="text-red-500">{errors.contact}</div>}
+            <div className="flex text-[white] p-2 w-[45%] h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
+              <label className="ml-5" htmlFor="branch">
+                Branch:
+              </label>
+              <input
+                className="bg-[#000] w-[26rem] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
+                type="text"
+                id="branch"
+                name="branch"
+                onChange={(e) => DataInp(e.target.name, e.target.value)}
+                placeholder="cse"
+              />
+            </div>
+            {errors.branch && <div className="text-red-500">{errors.branch}</div>}
           </div>
-        </div>
-        <div className="p-[2rem] -mt-9 flex justify-between">
-          <div className="flex text-[white] p-2 w-[45%] h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
-            <label className="ml-5" htmlFor="contact">Contact:</label>
-            <input
-              className="bg-[#000] w-[25rem] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
-              type="text"
-              id="contact"
-              name="contact"
-              placeholder="123455689"
-            />
+          <div className="p-[2rem] -mt-9 flex justify-between">
+            <div className="flex text-[white] p-2 w-[20rem] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
+              <label className="ml-5" htmlFor="year">
+                Year:
+              </label>
+              <select
+                value={selectedYear}
+                onChange={handleYearChange}
+                id="year"
+                name="year"
+                className="bg-[#000] w-[15rem] outline-none border-none text-yellow-ochre"
+              >
+                <option hidden>Year</option>
+                {options.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.text}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {errors.year && <div className="text-red-500">{errors.year}</div>}
+            <div className="flex text-[white] p-2 w-[20rem] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
+              <label className="ml-5" htmlFor="date">
+                Date:
+              </label>
+              <DatePicker
+                name="date"
+                id="date"
+                className="bg-[#000] w-[15rem] outline-none border-none text-yellow-ochre"
+                value={startDate}
+                onChange={(date) => {
+                  setStartDate(date);
+                  DataInp("date", date);
+                }}
+                clearIcon={null}
+                calendarIcon={<FaRegCalendarAlt color="#fff" size={20} />}
+              />
+            </div>
           </div>
-          <div className="flex text-[white] p-2 w-[45%] h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
-            <label className="ml-5" htmlFor="branch">Branch:</label>
-            <input
-              className="bg-[#000] w-[26rem] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
-              type="text"
-              id="branch"
-              name="branch"
-              placeholder="cse"
-            />
+
+          {/* Purpose */}
+          <div className="flex text-[white] -mt-1 p-2 w-[95%] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-around items-center mx-auto">
+            <div>Purpose of Practice</div>
+            <div className="">
+              <input
+                type="radio"
+                id="general1"
+                name="purpose"
+                value="general"
+                onChange={handlePurposeChange}
+              />
+              <label className="ml-5" htmlFor="general1">
+                General
+              </label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="specific1"
+                name="purpose"
+                value="specific"
+                onChange={handlePurposeChange}
+              />
+              <label className="ml-5" htmlFor="specific1">
+                Specific
+              </label>
+            </div>
+            {purpose === "specific" && (
+              <div className="flex text-[white] w-auto h-auto p-1 text-[1.25rem] font-freeman border-b-[2px] border-yellow-ochre bg-[#000] gap-3 justify-center items-center">
+                <input
+                  className="bg-[#000] w-[26rem] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
+                  type="text"
+                  name="specificType"
+                  placeholder="Enter purpose"
+                  onChange={(e) => DataInp(e.target.name, e.target.value)}
+                />
+              </div>
+            )}
           </div>
-        </div>
-        <div className="p-[2rem] -mt-9 flex justify-between">
-          <div className="flex text-[white] p-2 w-[20rem] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
-            <label className="ml-5" htmlFor="year">Year:</label>
+          {errors.specificType && <div className="text-red-500">{errors.specificType}</div>}
+
+          {/* Category */}
+          <div className="flex text-[white] p-2 mt-7 w-[95%] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-around items-center mx-auto">
+            <div>Category</div>
+            <div className="">
+              <input
+                type="radio"
+                id="solo/duet"
+                name="category"
+                checked={category === "solo/duet"}
+                value="solo/duet"
+                onChange={handleCategoryChange}
+              />
+              <label className="ml-5" htmlFor="solo/duet">
+                solo/duet
+              </label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="group"
+                name="category"
+                value="group"
+                checked={category === "group"}
+                onChange={handleCategoryChange}
+              />
+              <label className="ml-5" htmlFor="group">
+                group
+              </label>
+            </div>
+            {category === "group" && (
+              <div className="flex text-[white] w-auto h-auto p-1 text-[1.25rem] font-freeman border-b-[2px] border-yellow-ochre bg-[#000] gap-3 justify-center items-center">
+                <input
+                  className="bg-[#000] w-[26rem] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
+                  type="text"
+                  name="groupName"
+                  placeholder="Enter category"
+                  onChange={(e) => DataInp(e.target.name, e.target.value)}
+                />
+              </div>
+            )}
+          </div>
+          {errors.groupName && <div className="text-red-500">{errors.groupName}</div>}
+
+          {/* Time of Practice */}
+          <div className="flex text-[white] ml-[2.8%] mt-[1.5%] p-2 w-[35%] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
+            <label className="w-auto ml-5" htmlFor="time">
+              Time of Practice
+            </label>
             <select
-              value={selectedYear}
-              onChange={handleYearChange}
-              id="year"
+              value={selectedTime}
+              onChange={handleTimeChange}
+              id="time"
+              name="time"
               className="bg-[#000] w-[15rem] outline-none border-none text-yellow-ochre"
             >
-              <option hidden>Year</option>
-              {options.map((option) => (
+              <option hidden>Time</option>
+              {TimeOptions.map((option) => (
                 <option key={option.value} value={option.value}>
                   {option.text}
                 </option>
               ))}
             </select>
           </div>
-          <div className="flex text-[white] p-2 w-[20rem] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
-            <label className="ml-5" htmlFor="date">Date:</label>
-            <DatePicker
-              name="date"
-              id="date"
-              className="bg-[#000] w-[15rem] outline-none border-none text-yellow-ochre"
-              value={startDate}
-              onChange={(date) => setStartDate(date)}
-              clearIcon={null}
-              calendarIcon={<FaRegCalendarAlt color="#fff" size={20} />}
-            />
-          </div>
-        </div>
+          {errors.time && <div className="text-red-500">{errors.time}</div>}
 
-        {/* Purpose */}
-        <div className="flex text-[white] -mt-1 p-2 w-[95%] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-around items-center mx-auto">
-          <div>Purpose of Practice</div>
-          <div className="">
-            <input type="radio" id="general1" name="purpose" value="general" onChange={handlePurposeChange} />
-            <label className="ml-5" htmlFor="general1">General</label>
+          <div className="flex justify-center mb-3">
+            <button
+              type="submit"
+              className="flex justify-center items-center text-[white] px-14 h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000]"
+            >
+              Submit
+            </button>
           </div>
-          <div>
-            <input type="radio" id="specific1" name="purpose" value="specific" onChange={handlePurposeChange} />
-            <label className="ml-5" htmlFor="specific1">Specific</label>
-          </div>
-          {purpose === "specific" && (
-            <div className="flex text-[white] w-auto h-auto p-1 text-[1.25rem] font-freeman border-b-[2px] border-yellow-ochre bg-[#000] gap-3 justify-center items-center">
-              <input
-                className="bg-[#000] w-[26rem] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
-                type="text"
-                placeholder="Enter purpose"
-              />
-            </div>
-          )}
-        </div>
-
-        {/* Category */}
-        <div className="flex text-[white] p-2 mt-7 w-[95%] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-around items-center mx-auto">
-          <div>Category</div>
-          <div className="">
-            <input type="radio" id="solo/duet" name="solo/duet" checked={category==="solo/duet"} value="solo/duet" onChange={handleCategoryChange} />
-            <label className="ml-5" htmlFor="solo/duet">solo/duet</label>
-          </div>
-          <div>
-            <input type="radio" id="group" name="group" value="group" checked={category==="group"} onChange={handleCategoryChange} />
-            <label className="ml-5" htmlFor="group">group</label>
-          </div>
-          {category === "group" && (
-            <div className="flex text-[white] w-auto h-auto p-1 text-[1.25rem] font-freeman border-b-[2px] border-yellow-ochre bg-[#000] gap-3 justify-center items-center">
-              <input
-                className="bg-[#000] w-[26rem] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
-                type="text"
-                placeholder="Enter category"
-              />
-            </div>
-          )}
-        </div>
-
-        {/* Time of Practice */}
-        <div className="flex text-[white] ml-[2.8%] mt-[1.5%] p-2 w-[35%] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
-          <label className="w-auto ml-5" htmlFor="time">Time of Practice</label>
-          <select
-            value={selectedTime}
-            onChange={handleTimeChange}
-            id="time"
-            className="bg-[#000] w-[15rem] outline-none border-none text-yellow-ochre"
-          >
-            <option hidden>Time</option>
-            {TimeOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.text}
-              </option>
-            ))}
-          </select>
-        </div>
-
-        <div className="flex justify-center mb-3">
-          <button onClick={handleFormSubmit} className="flex justify-center items-center text-[white] px-14 h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000]">
-            Submit
-          </button>
-        </div>
+        </form>
       </div>
     </div>
   );
