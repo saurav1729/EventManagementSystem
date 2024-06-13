@@ -11,8 +11,8 @@ const Nav = () => {
         <div className='z-[1]'><img src={logo} alt="" /></div>
         <div className='flex items-center'>
             <div className= 'z-[1] mx-10 bg-yellow-ochre text-xl rounded-[25px] p-[10px] px-[20px] font-freeman hover:bg-[#CB9D0698] hover:scale-110'><Link to="/">Home</Link></div>
-            <div className='z-[1] mx-10 bg-yellow-ochre text-xl rounded-[25px] p-[10px] px-[20px] font-freeman hover:bg-[#CB9D0698] hover:scale-110'><Link to="./about">About</Link></div>
-            <div className='z-[1] mx-10 bg-yellow-ochre text-xl rounded-[25px] p-[10px] px-[20px] font-freeman hover:bg-[#CB9D0698] hover:scale-110'><Link to="./societies">Societies</Link></div>
+            <div className='z-[1] mx-10 bg-yellow-ochre text-xl rounded-[25px] p-[10px] px-[20px] font-freeman hover:bg-[#CB9D0698] hover:scale-110'><Link to="/about">About</Link></div>
+            <div className='z-[1] mx-10 bg-yellow-ochre text-xl rounded-[25px] p-[10px] px-[20px] font-freeman hover:bg-[#CB9D0698] hover:scale-110'><Link to="/societies">Societies</Link></div>
 
         </div>
     </nav>
