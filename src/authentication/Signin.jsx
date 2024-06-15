@@ -1,7 +1,31 @@
-import React from 'react'
-import korusBgSmall from '../resources/korusBgSmall.svg'
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import korusBgSmall from '../resources/korusBgSmall.svg';
 
 const Signin = () => {
+  const [userdata, setUserData] = useState({
+    email: "",
+    password: ""
+  });
+  
+  const navigate = useNavigate();
+
+  const handleInput = (e) => {
+    setUserData({ ...userdata, [e.target.name]: e.target.value });
+  }
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('/user/signin', userdata);
+      // console.log(response.data);
+      navigate('/');
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   return (
     <div className='bg-yellow-ochre w-100vw h-[100vh] px-[150px] py-[50px] text-center'>
       <div className="container text-white flex box shadow-signup rounded-3xl">
@@ -15,9 +39,9 @@ const Signin = () => {
         <div className="rightSide bg-black w-[600px] p-[4rem] py-[8rem] rounded-r-3xl">
           <h2 className='text-[2.5rem] font-freeman text-yellow-ochre mb-3'>Sign In</h2>
           <div className='flex flex-col items-center'>
-            <input type="text" className='w-[25rem] text-white bg-black border border-white rounded-[24px] placeholder:text-white block font-freeman p-5 text-xl mb-5' placeholder="Email:"/>
-            <input type="password" className='w-[25rem] text-white bg-black border border-white rounded-[24px] placeholder:text-white block font-freeman p-5 text-xl mb-5' placeholder="Password:"/>
-            <button className='bg-yellow-ochre w-[10rem] p-3 font-freeman text-2xl rounded-[24px] mb-2'>Sign In</button>
+            <input type="text" name='email' onChange={handleInput} className='w-[25rem] text-white bg-black border border-white rounded-[24px] placeholder:text-white block font-freeman p-5 text-xl mb-5' placeholder="Email:"/>
+            <input type="password" name='password' onChange={handleInput} className='w-[25rem] text-white bg-black border border-white rounded-[24px] placeholder:text-white block font-freeman p-5 text-xl mb-5' placeholder="Password:"/>
+            <button onClick={handleSignIn} className='bg-yellow-ochre w-[10rem] p-3 font-freeman text-2xl rounded-[24px] mb-2'>Sign In</button>
             <p className=''>Don't have an account? <span className='font-freeman text-yellow-ochre underline'><a href="/signup">SignUp</a></span></p>
           </div>
         </div>
@@ -26,4 +50,4 @@ const Signin = () => {
   )
 }
 
-export default Signin
+export default Signin;

@@ -14,7 +14,7 @@ const Hero = () => {
     typeSpeed:150,
     delaySpeed:40
   })
- 
+
   return (
     <>
 
