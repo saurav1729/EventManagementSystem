@@ -26,26 +26,13 @@ const Form = () => {
     groupName: "",
     time: "",
   });
-  const [errors, setErrors] = useState({});
+
 
   const DataInp = (name, value) => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const validate = () => {
-    let errors = {};
-    if (!formData.name) errors.name = "Name is required";
-    if (!formData.rollNumber) errors.rollNumber = "Roll Number is required";
-    if (!formData.contact) errors.contact = "Contact is required";
-    if (!formData.branch) errors.branch = "Branch is required";
-    if (!selectedYear) errors.year = "Year is required";
-    if (!selectedTime) errors.time = "Time is required";
-    if (purpose === "specific" && !formData.specificType) errors.specificType = "Specific purpose is required";
-    if (category === "group" && !formData.groupName) errors.groupName = "Group name is required";
 
-    setErrors(errors);
-    return Object.keys(errors).length === 0;
-  };
 
   const handleYearChange = (event) => {
     setSelectedYear(event.target.value);
@@ -149,7 +136,7 @@ const Form = () => {
                 placeholder="saurav jha"
               />
             </div>
-            {errors.name && <div className="text-red-500">{errors.name}</div>}
+          
             <div className="flex text-[white] p-2 w-[45%] h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
               <label className="ml-5" htmlFor="rollNumber">
                 Roll Number:
@@ -163,7 +150,7 @@ const Form = () => {
                 placeholder="22053276"
               />
             </div>
-            {errors.rollNumber && <div className="text-red-500">{errors.rollNumber}</div>}
+          
           </div>
           <div className="p-[2rem] -mt-9 flex justify-between">
             <div className="flex text-[white] p-2 w-[45%] h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
@@ -179,7 +166,7 @@ const Form = () => {
                 placeholder="123455689"
               />
             </div>
-            {errors.contact && <div className="text-red-500">{errors.contact}</div>}
+           
             <div className="flex text-[white] p-2 w-[45%] h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
               <label className="ml-5" htmlFor="branch">
                 Branch:
@@ -193,7 +180,7 @@ const Form = () => {
                 placeholder="cse"
               />
             </div>
-            {errors.branch && <div className="text-red-500">{errors.branch}</div>}
+       
           </div>
           <div className="p-[2rem] -mt-9 flex justify-between">
             <div className="flex text-[white] p-2 w-[20rem] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
@@ -215,7 +202,7 @@ const Form = () => {
                 ))}
               </select>
             </div>
-            {errors.year && <div className="text-red-500">{errors.year}</div>}
+           
             <div className="flex text-[white] p-2 w-[20rem] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
               <label className="ml-5" htmlFor="date">
                 Date:
@@ -274,7 +261,7 @@ const Form = () => {
               </div>
             )}
           </div>
-          {errors.specificType && <div className="text-red-500">{errors.specificType}</div>}
+         
 
           {/* Category */}
           <div className="flex text-[white] p-2 mt-7 w-[95%] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-around items-center mx-auto">
@@ -317,7 +304,7 @@ const Form = () => {
               </div>
             )}
           </div>
-          {errors.groupName && <div className="text-red-500">{errors.groupName}</div>}
+    
 
           {/* Time of Practice */}
           <div className="flex text-[white] ml-[2.8%] mt-[1.5%] p-2 w-[35%] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
@@ -339,7 +326,7 @@ const Form = () => {
               ))}
             </select>
           </div>
-          {errors.time && <div className="text-red-500">{errors.time}</div>}
+         
 
           <div className="flex justify-center mb-3">
             <button
