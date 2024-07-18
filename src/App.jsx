@@ -1,7 +1,8 @@
+/* eslint-disable react/jsx-key */
 import './App.css'
 import Nav from './components/Nav'
 import Hero from './components/Hero'
-import React from 'react'
+// import React from 'react'
 import ReactDOM from 'react-dom/client'
 import './index.css'
 import { createBrowserRouter,Outlet,RouterProvider } from 'react-router-dom'
@@ -10,13 +11,18 @@ import About from './components/About'
 import Form from './components/Form'
 import Signup from './authentication/Signup'
 import Signin from './authentication/Signin'
+import { AuthContextProvider } from './context/AuthContext'
+
 
 
 
 const App=()=>{
   return(
       <>
+      <AuthContextProvider>
+
       <Outlet />
+      </AuthContextProvider>
       </>
      
   )
@@ -24,7 +30,7 @@ const App=()=>{
 
 const appRouter=createBrowserRouter(
   [
-      {
+      {   
           path:"/",
           element:<App />,
           children:[
@@ -51,9 +57,11 @@ const appRouter=createBrowserRouter(
               },
               {
                 path:"/signin",
+
                 element:[<Signin/>]
               }
           ],
+          // eslint-disable-next-line react/jsx-no-undef
           errorElement:<Error/>
       }
   ]

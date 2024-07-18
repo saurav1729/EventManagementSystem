@@ -6,6 +6,11 @@ import DatePicker from "react-date-picker";
 import "react-date-picker/dist/DatePicker.css";
 import "react-calendar/dist/Calendar.css";
 import "./style/DatePickerStyles.css";
+import axios from "axios";
+import moment from "moment";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Form = () => {
   const [selectedYear, setSelectedYear] = useState("");
@@ -56,29 +61,37 @@ const Form = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (validate()) {
-      const dataToSubmit = { ...formData, date: startDate, year: selectedYear, time: selectedTime };
-      console.log(dataToSubmit);
-      try {
-        // const response = await fetch("YOUR_BACKEND_URL/api/form-submit", {
-        //   method: "POST",
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //   },
-        //   body: JSON.stringify(dataToSubmit),
-        // });
-        // if (response.ok) {
-        //   // Handle successful submission
-        //   console.log("Form submitted successfully");
-        // } else {
-        //   // Handle submission error
-        //   console.error("Form submission error");
-        // }
-      } catch (error) {
-        console.error("Error submitting form:", error);
-      }
+    const formattedDate = moment(startDate).format("YYYY-MM-DD");
+    const dataToSubmit = { ...formData, email:'amaldeep@gmail.com', date: formattedDate, year: selectedYear, time: selectedTime };
+    console.log(dataToSubmit);
+    try {
+        const response = await axios.post("/api/form-submit", dataToSubmit);
+        if (response.status === 200) {
+      
+            console.log(response);
+            console.log("Form submitted successfully");
+            toast.success("Password reset successfully");
+        } else {
+         
+          console.error("Form submission error", response);
+        }
+    } catch (error) {
+        if (error.response) {
+       
+            console.error("Server responded with an error:", error.response.data);
+            console.error("Status code:", error.response.status);
+            
+        } else if (error.request) {
+
+            console.error("No response received:", error.request);
+        } else {
+     
+            console.error("Error in setting up request:", error.message);
+        }
+        console.error("Error config:", error.config);
     }
-  };
+};
+
 
   const options = [
     { value: "1st", text: "1st year" },
@@ -102,7 +115,7 @@ const Form = () => {
 
   return (
     <div className="formPage bg-black w-screen h-screen justify-center flex-col flex items-center">
-      <div className="w-[70%] h-[7rem] bg-[#CB9D06] mt-7 flex justify-center items-center text-[#fff] gap-8 font-freeman flex-col rounded-[12px] leading-[41px]">
+      <div className="w-[70%] h-[7rem] bg-[#CB9D06] mt-6 flex justify-center items-center text-[#fff] gap-8 font-freeman flex-col rounded-[12px] leading-[41px]">
         <div className="text-[2rem] font-[900] tracking-wide">
           KIIT STUDENT ACTIVITY CENTRE
         </div>
@@ -122,8 +135,8 @@ const Form = () => {
           alt="left character"
         />
         <form onSubmit={handleSubmit}>
-          <div className="p-[2rem] pl-10 flex justify-between">
-            <div className="flex text-[white] p-2 w-[45%] h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
+          <div className="p-8 pl-10 flex justify-between">
+            <div className="flex text-[white] p-2 w-[45%] h-[2.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
               <label className="ml-5" htmlFor="name">
                 Name:
               </label>
@@ -137,12 +150,12 @@ const Form = () => {
               />
             </div>
           
-            <div className="flex text-[white] p-2 w-[45%] h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
-              <label className="ml-5" htmlFor="rollNumber">
+            <div className="flex text-[white] p-2 w-[45%] h-[2.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
+              <label className="ml-5 w-full" htmlFor="rollNumber">
                 Roll Number:
               </label>
               <input
-                className="bg-[#000] w-[70%] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
+                className="bg-[#000] w-full -ml-[11rem] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
                 type="text"
                 id="rollNumber"
                 name="rollNumber"
@@ -153,7 +166,7 @@ const Form = () => {
           
           </div>
           <div className="p-[2rem] -mt-9 flex justify-between">
-            <div className="flex text-[white] p-2 w-[45%] h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
+            <div className="flex text-[white] p-2 w-[45%] h-[2.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
               <label className="ml-5" htmlFor="contact">
                 Contact:
               </label>
@@ -167,7 +180,7 @@ const Form = () => {
               />
             </div>
            
-            <div className="flex text-[white] p-2 w-[45%] h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
+            <div className="flex text-[white] p-2 w-[45%] h-[2.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
               <label className="ml-5" htmlFor="branch">
                 Branch:
               </label>
@@ -182,8 +195,8 @@ const Form = () => {
             </div>
        
           </div>
-          <div className="p-[2rem] -mt-9 flex justify-between">
-            <div className="flex text-[white] p-2 w-[20rem] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
+          <div className="p-6 -mt-9 flex justify-between">
+            <div className="flex text-[white] p-2 w-[20rem] h-[2.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
               <label className="ml-5" htmlFor="year">
                 Year:
               </label>
@@ -192,7 +205,7 @@ const Form = () => {
                 onChange={handleYearChange}
                 id="year"
                 name="year"
-                className="bg-[#000] w-[15rem] outline-none border-none text-yellow-ochre"
+                className="bg-[#000]  w-[15rem] outline-none border-none text-yellow-ochre"
               >
                 <option hidden>Year</option>
                 {options.map((option) => (
@@ -203,7 +216,7 @@ const Form = () => {
               </select>
             </div>
            
-            <div className="flex text-[white] p-2 w-[20rem] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
+            <div className="flex text-[white] p-2 w-[20rem] h-[2.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
               <label className="ml-5" htmlFor="date">
                 Date:
               </label>
@@ -223,7 +236,7 @@ const Form = () => {
           </div>
 
           {/* Purpose */}
-          <div className="flex text-[white] -mt-1 p-2 w-[95%] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-around items-center mx-auto">
+          <div className="flex text-[white] p-2 w-[95%] -mt-3 h-[2.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-around items-center mx-auto">
             <div>Purpose of Practice</div>
             <div className="">
               <input
@@ -250,7 +263,7 @@ const Form = () => {
               </label>
             </div>
             {purpose === "specific" && (
-              <div className="flex text-[white] w-auto h-auto p-1 text-[1.25rem] font-freeman border-b-[2px] border-yellow-ochre bg-[#000] gap-3 justify-center items-center">
+              <div className="flex text-[white] w-auto h-auto p-1 text-[1rem] font-freeman border-b-[2px] border-yellow-ochre bg-[#000] gap-3 justify-center items-center">
                 <input
                   className="bg-[#000] w-[26rem] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
                   type="text"
@@ -264,7 +277,7 @@ const Form = () => {
          
 
           {/* Category */}
-          <div className="flex text-[white] p-2 mt-7 w-[95%] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-around items-center mx-auto">
+          <div className="flex text-[white] p-2 mt-4 w-[95%] h-[2.5rem] overflow-hidden rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-around items-center mx-auto">
             <div>Category</div>
             <div className="">
               <input
@@ -293,7 +306,7 @@ const Form = () => {
               </label>
             </div>
             {category === "group" && (
-              <div className="flex text-[white] w-auto h-auto p-1 text-[1.25rem] font-freeman border-b-[2px] border-yellow-ochre bg-[#000] gap-3 justify-center items-center">
+              <div className="flex text-[white] w-auto h-auto p-1 text-[1rem] font-freeman border-b-[2px] border-yellow-ochre bg-[#000] gap-3 justify-center items-center">
                 <input
                   className="bg-[#000] w-[26rem] outline-none border-none text-yellow-ochre placeholder:text-[#CB9D0650]"
                   type="text"
@@ -307,8 +320,8 @@ const Form = () => {
     
 
           {/* Time of Practice */}
-          <div className="flex text-[white] ml-[2.8%] mt-[1.5%] p-2 w-[35%] h-[3rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
-            <label className="w-auto ml-5" htmlFor="time">
+          <div className="flex text-[white] ml-[2.8%] mt-3 p-2 w-[35%] h-[2.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000] gap-3 justify-center items-center">
+            <label className="w-full ml-5" htmlFor="time">
               Time of Practice
             </label>
             <select
@@ -328,7 +341,7 @@ const Form = () => {
           </div>
          
 
-          <div className="flex justify-center mb-3">
+          <div className="flex justify-center mb-2">
             <button
               type="submit"
               className="flex justify-center items-center text-[white] px-14 h-[3.5rem] rounded-[1.5rem] text-[1.25rem] font-freeman border border-[#F3EBE8] bg-[#000]"
