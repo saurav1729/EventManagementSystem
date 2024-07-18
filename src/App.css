@@ -1,3 +1,43 @@
 #root {
   margin: 0 ;
 }
+
+
+.carousel-container {
+  position: relative;
+}
+
+.top-image-container {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.top-image {
+  position: absolute;
+  opacity: 1;
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.top-image.exit {
+  opacity: 0;
+  transform: translate(200px, 200px); /* Adjust the translate values as needed */
+}
+
+.bottom-images-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.bottom-image {
+  opacity: 1;
+  transition: opacity 0.5s, transform 0.5s;
+}
+
+.bottom-image.enter {
+  opacity: 0;
+  transform: translate(-200px, -200px); /* Adjust the translate values as needed */
+}
